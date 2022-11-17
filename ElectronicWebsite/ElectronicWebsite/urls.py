@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from store import views
+#Changes by Gayathri Dated:16/11/2022
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -23,3 +26,5 @@ urlpatterns = [
     url(r'^$', views.store, name='store'),
     url('', include('store.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

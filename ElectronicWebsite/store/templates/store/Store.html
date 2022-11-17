@@ -1,87 +1,22 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
+     {# Changes by Gayathri Dated:16/11/2022 #}
 	<div class="row">
+		{% for product in products %}
 		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/tv.png' %}">
+			<img class="thumbnail" src="{{product.imageURL}}">
 			<div class="box-element product">
-				<h6><strong>TV</strong></h6>
+				<h6><strong>{{product.name}}</strong></h6>
 				<hr>
 
 				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
 				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>200:-</strong></h4>
+				<h4 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h4>
 
 			</div>
 		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/toy.png' %}">
-			<div class="box-element product">
-				<h6><strong>Big Toy</strong></h6>
-				<hr>
-				
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>450:-</strong></h4>
-				
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/shirt.png' %}">
-			<div class="box-element product">
-				<h6><strong>T-Shirt</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>7100:-</strong></h4>
-
-			</div>
-		</div>
-	</div>
-
-
-	<div class="row">
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/ballons.png' %}">
-			<div class="box-element product">
-				<h6><strong>Ballons</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>2300:-</strong></h4>
-
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/fotball.png' %}">
-			<div class="box-element product">
-				<h6><strong>Fotball</strong></h6>
-				<hr>
-				
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>250:-</strong></h4>
-				
-			</div>
-		</div>
-
-		<div class="col-lg-4">
-			<img class="thumbnail" src="{% static 'images/lamp.png' %}">
-			<div class="box-element product">
-				<h6><strong>Lamp</strong></h6>
-				<hr>
-
-				<button  class="btn btn-outline-secondary add-btn">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
-				<h4 style="display: inline-block; float: right"><strong>150:-</strong></h4>
-
-			</div>
-		</div>
+		{% endfor %}
 	</div>	
 
 {% endblock content %}
