@@ -3,6 +3,7 @@ from django.http import JsonResponse
 import json
 import datetime
 from .models import *
+from .utils import cookieCart, cartData, guestOrder
 
 # Create your views here.
 
@@ -10,47 +11,30 @@ from .models import *
 def store(request):
 	# Changes by Gayathri Dated:16/11/2022 --- Tongmei 17/11
 	
-	if request.user.is_authenticated:
-		customer = request.user.customer
-		order, created = Order.objects.get_or_create(customer=customer, complete=False)
-		items = order.orderitem_set.all()
-		cartItems = order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
-		cartItems = order['get_cart_items']
+	data = cartData(request)
+	cartItems = data['cartItems']
 
 	products = Product.objects.all()
 	context = {'products':products, 'cartItems':cartItems}
 	return render(request, 'store/store.html', context)
 
 def cart(request):
-	# Changes by Gayathri Dated:17/11/2022  Tongmei 17/11
+	# Changes by Gayathri Dated:17/11/2022  Tongmei 17/11 18/11
 
-	if request.user.is_authenticated:
-		customer = request.user.customer
-		order, created = Order.objects.get_or_create(customer=customer, complete=False)
-		items = order.orderitem_set.all()
-		cartItems = order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
-		cartItems = order['get_cart_items']
+	data = cartData(request)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
 
 	context = {'items':items, 'order':order,'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
 
 def checkout(request):
-	# Changes by Gayathri Dated:17/11/2022 and Tongmei 17/11
-	if request.user.is_authenticated:
-		customer = request.user.customer
-		order, created = Order.objects.get_or_create(customer=customer, complete=False)
-		items = order.orderitem_set.all()
-		cartItems = order.get_cart_items
-	else:
-		items = []
-		order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
-		cartItems = order['get_cart_items']
+	# Changes by Gayathri Dated:17/11/2022 and Tongmei 17/11 18/11
+	data = cartData(request)
+	cartItems = data['cartItems']
+	order = data['order']
+	items = data['items']
 
 	context = {'items':items, 'order':order,'cartItems':cartItems}
 	return render(request, 'store/checkout.html', context)
