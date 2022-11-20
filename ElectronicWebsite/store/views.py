@@ -1,10 +1,21 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse, HttpResponseRedirect
 import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
 
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
+from django.forms import inlineformset_factory
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 # Create your views here.
 
 
@@ -94,3 +105,57 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
+
+# Tongmei test -- Login & logout & register & passwordReset --  11/20 
+def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('store')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username = username, password=password)
+
+
+            if user is not None:
+                login(request, user)
+                return redirect('store')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
+
+    context  = {}
+    return render(request, 'store/login.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('store/login')
+
+def registerPage(request):
+
+    device = json.loads(request.COOKIES['cart'])
+
+    if request.user.is_authenticated:
+        return redirect('store')
+    else:
+        form = CreateUserForm()
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                Customer.objects.create(
+                    user=user,
+                    name=user.first_name + ' ' + user.last_name,
+                    email = user.email,
+                    device = device
+                    )
+                group = Group.objects.get(name='customer')
+                user.groups.add(group)
+
+                username = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + username)
+
+                return redirect('login')
+
+        context = {'form': form,}
+        return render(request, 'store/register.html', context)
