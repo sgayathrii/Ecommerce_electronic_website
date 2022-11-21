@@ -90,9 +90,33 @@
             >
           </li>
         </ul>
+
+        <div class="form-inline my-2 my-lg-0">
+
+          <div class="dropdown">
+
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+            <span class="ms-login-logout__button-label"> My account</span>
+
+            </button>
+
+            <div class="dropdown-menu"><span>You have not logged in !!</span><br>
+
+              <a data-identifier="log_in_out_link"
+
+              class="list-group-item list-group-item-success"  href="{% url 'store:login' %}">Login</a><br>
+
+              <a data-identifier="log_in_out_link"
+
+              class="list-group-item list-group-item-info" href="{% url 'store:register' %}">Become a member/Create an Account</a>     
+            </div>
+          </div>       
+
+<!--tongmei 
         <div class="form-inline my-2 my-lg-0">
           <a href="{% url 'store:login' %}" class="btn btn-warning">Login</a>
-
+-->
           <a href="{% url 'store:cart' %}">
             <img id="cart-icon" src="{% static 'images/cart.png' %}" />
           </a>
