@@ -4,6 +4,7 @@ import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from .forms import *
 
 
 from django.core.mail import EmailMessage
@@ -146,8 +147,6 @@ def logoutUser(request):
 
 def registerPage(request):
 
-    device = json.loads(request.COOKIES['cart'])
-
     if request.user.is_authenticated:
         return redirect('store')
     else:
@@ -158,12 +157,11 @@ def registerPage(request):
                 user = form.save()
                 Customer.objects.create(
                     user=user,
-                    name=user.first_name + ' ' + user.last_name,
+                    name=user.username,
                     email = user.email,
-                    device = device
                     )
                 group = Group.objects.get(name='customer')
-                user.groups.add(group)
+                customer.groups.add(group)
 
                 username = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + username)

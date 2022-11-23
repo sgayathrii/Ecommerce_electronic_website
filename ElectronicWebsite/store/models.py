@@ -88,12 +88,7 @@ class ShippingAddress(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.address
-
-class CreateUserForm(UserCreationForm):
-	class Meta:
-		model = User
-		fields = ["first_name", "last_name",'username', 'email', 'password1', 'password2']
+        return self.address 
 
 
 
