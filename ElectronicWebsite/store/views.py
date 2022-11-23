@@ -5,7 +5,7 @@ import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
 from .forms import *
-
+from django.contrib.auth.forms import UserCreationForm
 
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -139,11 +139,6 @@ def loginPage(request):
 
     context  = {}
     return render(request, 'store/login.html', context)
-"""
-def logoutUser(request):
-    logout(request)
-    return redirect('store/login')
-"""
 
 def registerPage(request):
 
@@ -160,13 +155,11 @@ def registerPage(request):
                     name=user.username,
                     email = user.email,
                     )
-                group = Group.objects.get(name='customer')
-                customer.groups.add(group)
 
                 username = form.cleaned_data.get('username')
                 messages.success(request, 'Account was created for ' + username)
 
-                return redirect('login')
+                return redirect('store:login')
 
         context = {'form': form,}
         return render(request, 'store/register.html', context)
