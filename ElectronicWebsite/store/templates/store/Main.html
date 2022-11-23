@@ -15,8 +15,13 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+    <!-- Bootstrap Font Icon CSS -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <script type="text/javascript">
+
       var user = "{{request.user}}";
 
       function getToken(name) {
@@ -68,62 +73,77 @@
     </script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">'
       <a class="navbar-brand" href="{% url 'store' %}">Ecom</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'store' %}"
-              >Store<span class="sr-only">(current)</span></a
-            >
+            <a class="nav-link px-lg-4" href="{% url 'store' %}"
+              >Store<span class="sr-only">(current)</span></a>
           </li>
         </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ml-auto">
+            <li class="nav-item">
+                <div class="justify-content-md-center">
+                  <form action="{% url 'store:search_result' %}" class="form-inline my-2 my-lg-0 my-lg-0" method="post">
+                      {% csrf_token %}                                   
+                      <input class="form-control mr-sm-2" type="text" name = "search" placeholder="Search..." aria-label="Search" style="width: 600px;">
+                      <button class="btn btn-info" type="submit"><i class="bi bi-search"></i></button> 
+                  </form>
+                </div>
+              </li>
+          </ul>
+      </div>
+      <div class="form-inline my-2 my-lg-0">
+        <div class="dropdown">
+          <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="bi bi-person-fill"></i>
+          <span class="ms-login-logout__button-label">My account</span>            
+          </button>
+            {% if user.is_authenticated %}
+                <div class="dropdown-menu">Hi {{ user.username }}!
+                  <br>
+                  <a data-identifier="log_in_out_link"
+                  class="list-group-item list-group-item-success"  href="{% url 'store:logout' %}">Logout
+                  </a>
+                </div>
+            {% else %}
+                <div class="dropdown-menu"><span>You have not logged in !!</span><br>
 
-        <div class="form-inline my-2 my-lg-0">
+                  <a data-identifier="log_in_out_link"
 
-          <div class="dropdown">
+                  class="list-group-item list-group-item-success"  href="{% url 'store:login' %}">Login
+                  <i class="bi bi-key-fill"></i></a><br>
 
-            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a data-identifier="log_in_out_link" 
+                  class="list-group-item list-group-item-info" href="{% url 'store:register' %}">Become a member/Create an Account</a>
 
-            <span class="ms-login-logout__button-label"> My account</span>
-
-            </button>
-
-            <div class="dropdown-menu"><span>You have not logged in !!</span><br>
-
-              <a data-identifier="log_in_out_link"
-
-              class="list-group-item list-group-item-success"  href="{% url 'store:login' %}">Login</a><br>
-
-              <a data-identifier="log_in_out_link"
-
-              class="list-group-item list-group-item-info" href="{% url 'store:register' %}">Become a member/Create an Account</a>     
-            </div>
-          </div>       
-
-<!--tongmei 
-        <div class="form-inline my-2 my-lg-0">
-          <a href="{% url 'store:login' %}" class="btn btn-warning">Login</a>
--->
-          <a href="{% url 'store:cart' %}">
-            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
-          </a>
-          <p id="cart-total">{{cartItems}}</p>
-        </div>
+                </div>
+            {% endif %}  
+        </div>     
+        <a href="{% url 'store:cart' %}">
+          <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+        </a>
+        <p id="cart-total">{{cartItems}}</p>
       </div>
     </nav>
+    <!--tongmei 
+        <div class="form-inline my-2 my-lg-0">
+          <a href="{% url 'store:login' %}" class="btn btn-warning">Login</a>
+    -->
 
     <div class="container">
       <br />

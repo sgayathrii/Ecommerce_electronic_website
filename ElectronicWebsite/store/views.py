@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+
 
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -16,8 +17,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-# Create your views here.
+from django.urls import reverse
+from django.views.generic import TemplateView, ListView
 
+# Create your views here.
 
 def store(request):
 	# Changes by Gayathri Dated:16/11/2022 --- Tongmei 17/11
@@ -105,6 +108,15 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
+#--------Changes by Gayathri--------------#
+
+
+@login_required
+def logoutUser(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('store'))
+
+#----------------------#
 
 # Tongmei test -- Login & logout & register & passwordReset --  11/20 
 def loginPage(request):
@@ -126,10 +138,11 @@ def loginPage(request):
 
     context  = {}
     return render(request, 'store/login.html', context)
-
+"""
 def logoutUser(request):
     logout(request)
     return redirect('store/login')
+"""
 
 def registerPage(request):
 
@@ -159,3 +172,16 @@ def registerPage(request):
 
         context = {'form': form,}
         return render(request, 'store/register.html', context)
+    
+#View for search.html
+def searchResultView(request):
+	if request.method == 'POST':
+		search = request.POST['search']
+		products = Product.objects.filter(name__contains=search)
+		return render(request, 'store/Search_products.html', {'search':search, 'products':products})
+	else:
+		return render(request, 'store/Search_products.html', {})
+
+
+	
+    
