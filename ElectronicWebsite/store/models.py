@@ -21,6 +21,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+
     #Changes by Gayathri Dated: 16/11/2022
     @property
     def imageURL(self):
