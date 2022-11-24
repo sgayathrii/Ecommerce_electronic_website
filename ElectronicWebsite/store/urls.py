@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^logout/$', views.logoutUser, name='logout'),
     url(r'^reset_password/$', auth_views.PasswordResetView.as_view(template_name="store/password_reset.html"), name="reset_password"),
     
-    url(r'^search/$', views.searchResultView, name='search_result'), 
+    url(r'^search/$', views.searchResultView, name='search_result'),
+    url(r'^categories/$', views.categoryElectro, name='categories'),  
 ]

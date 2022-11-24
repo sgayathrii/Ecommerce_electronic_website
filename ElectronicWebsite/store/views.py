@@ -173,6 +173,23 @@ def searchResultView(request):
 	else:
 		return render(request, 'store/Search_products.html', {})
 
+#View for category: Electro.html
+def categoryElectro(request):
 
+	categories = Category.objects.all()
+	subcategories = Subcategory.objects.all()
+	products = ProductNew.objects.all()
 	
-    
+	active_category = request.GET.get('category', '')
+
+	if active_category:
+		products = products.filter(category__slug=active_category)
+
+	context = {
+		'categories': categories,
+		'subcategories': subcategories,
+		'products': products,
+		'active_category': active_category,
+	}
+
+	return render(request, 'store/Electro.html', context)

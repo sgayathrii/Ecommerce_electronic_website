@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 
@@ -90,11 +91,64 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.address 
 
+#Changes by Tongmei Dated: 24/11/2022
+class Category(models.Model):
+    category_title = models.CharField(max_length=200)
+    category_image = models.ImageField(upload_to="category")
+    category_slug = models.SlugField(max_length=200, default=1)
 
+    class Meta:
+        verbose_name_plural = "Categories"
 
+    def __str__(self):
+        return self.category_title 
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.category_image.url
+        except:
+            url = ''
+        
+        return url
 
+    @property    
+    def get_photo_url(self):
+        if self.category_image and hasattr(self.category_image, 'url'):
+            return self.category_image.url
+        else:
+            return "/static/images/category/TV.png"
 
+class Subcategory(models.Model):
+    subcategory_title = models.CharField(max_length=200)
+    subcategory_category = models.ForeignKey(
+        Category, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
 
+    class Meta:
+        verbose_name_plural = "Subcategories"
+
+    def __str__(self):
+        return self.subcategory_title
+
+class ProductNew(models.Model):
+
+    product_title = models.CharField(max_length=200)
+    product_image = models.ImageField(null=True, blank=True)
+    product_base_price = models.DecimalField(max_digits=12, decimal_places=2)
+    product_description = models.TextField()
+    product_slug = models.SlugField(max_length=200, default=1)
+    product_subcategory = models.ForeignKey(
+    Subcategory, default=1, verbose_name="Subcategories", on_delete=models.SET_DEFAULT)
+    product_available = models.BooleanField(default=True)
     
- 
+    def __str__(self):
+        return self.product_title
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        
+        return url
