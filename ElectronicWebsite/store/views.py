@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse,Http404
 import json
 import datetime
 from .models import *
@@ -14,12 +14,14 @@ from django.contrib.auth.models import Group
 from django.template.loader import render_to_string
 from django.forms import inlineformset_factory
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.messages import get_messages
 from django.urls import reverse
-from django.views.generic import TemplateView, ListView
+
+
 
 # Create your views here.
 

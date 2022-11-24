@@ -2,6 +2,27 @@
 {% load static %}
 {% block content %}
      {# Changes by Gayathri Dated:16/11/2022 #}
+	<div class="container-fluid">
+		<div class="container">
+				{% if user.is_authenticated %}
+					{% if user.is_superuser %}
+					    <div class="siteheading">
+							<marquee direction="left"><h4 style="color:red;">You are a superuser. Login with different user</h4></marquee>
+						</div>
+					{% else %}
+					    
+							<marquee direction="left"><h6 class="caps retroshadow" style="color:#5A4FCF;">Welcome to ElectroPower Electronic Site!!</h6></marquee>
+						
+					{% endif %}
+				{% else %}
+				
+					<marquee direction="left"><h6 class="caps retroshadow" style="color:#5A4FCF;">Welcome to ElectroPower Electronic Site!!</h6></marquee>
+				
+				{% endif %}
+			</div>
+			
+	</div>
+
 	<div class="row">
 		{% for product in products %}
 		<div class="col-lg-4">
@@ -11,7 +32,7 @@
 				<hr>
 
 				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-				<a class="btn btn-outline-success" href="#">View</a>
+				<a class="btn btn-outline-success" href=" ">View</a>
 				<h4 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h4>
 
 			</div>
