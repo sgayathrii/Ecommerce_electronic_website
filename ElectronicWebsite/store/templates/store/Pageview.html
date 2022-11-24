@@ -1,0 +1,22 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+     {# Changes by Matti Dated:24/11/2022 #}
+    <div class="row">
+        <div class="col-lg-8">
+            <img class="img-fluid mx-auto" src="{{single_product.imageURL}}">
+           
+                <div class="box-element product">
+                    <h6><strong>{{single_product.name}}  ID:{{single_product.id}}  </strong></h6>
+                    <hr>
+
+                    <button data-product="{{single_product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                    <a class="btn btn-outline-success" href="/">Back</a>
+                    <h4 style="display: inline-block; float: right"><strong>{{single_product.price}}$</strong></h4>
+
+                </div>
+           
+        </div>
+    </div>  
+
+{% endblock content %}

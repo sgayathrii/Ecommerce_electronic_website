@@ -20,9 +20,15 @@ class Product(models.Model):
     #Changes by Gayathri Dated: 16/11/2022
     image = models.ImageField(null=True, blank=True)
 
+    #Changes by Matti Dated: 24/11/2022
+    id = models.IntegerField(primary_key=True)
+
     def __str__(self):
         return self.name
     
+    #Changes by Matti Dated: 24/11/2022
+    def get_absolute_url(self):
+        return f'/pageview/{self.id}/'    
 
     #Changes by Gayathri Dated: 16/11/2022
     @property

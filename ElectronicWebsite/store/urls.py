@@ -21,4 +21,9 @@ urlpatterns = [
     
     url(r'^search/$', views.searchResultView, name='search_result'),
     url(r'^categories/$', views.categoryElectro, name='categories'),  
+
+    # Changes by Matti Dated:24/11/2022
+    url('pageview/', views.pageview, name='pageview'),
+    url(r'^pageview/<int:pk>/', views.pageview, name='pageview_with_pk'),
+   
 ]

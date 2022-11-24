@@ -195,3 +195,19 @@ def categoryElectro(request):
 	}
 
 	return render(request, 'store/Electro.html', context)
+
+# View for pageview (Single Product page)
+# Changes by Matti Dated:24/11/2022
+def pageview(request, pk=3):
+
+    try:
+        single_product = Product.objects.get(id=pk)
+    except Exception as e:
+        raise e
+
+    data = cartData(request)
+    cartItems = data['cartItems']
+
+
+    context = {'single_product':single_product, 'cartItems':cartItems}
+    return render(request, 'store/Pageview.html', context)

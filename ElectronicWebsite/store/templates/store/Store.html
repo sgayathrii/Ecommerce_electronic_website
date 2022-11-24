@@ -32,7 +32,8 @@
 				<hr>
 
 				<button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-				<a class="btn btn-outline-success" href=" ">View</a>
+				 {# Changes by Matti Dated:24/11/2022 #}
+				<a class="btn btn-outline-success" href="{{ product.get_absolute_url }}">View</a>
 				<h4 style="display: inline-block; float: right"><strong>${{product.price|floatformat:2}}</strong></h4>
 
 			</div>
