@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^search/$', views.searchResultView, name='search_result'),
     
     url(r'^search/$', views.searchResultView, name='search_result'),
-    url(r'^categories/$', views.categoryElectro, name='categories'),  
+    url(r'^categories/$', views.categories, name='categories'),
+    #url(r'^categories/<str:slug>/$', views.categoriesview, name='categoriesview'),
+    #url(r'^<slug:slug>/$', views.product_detail, name='product_detail'),
 ]

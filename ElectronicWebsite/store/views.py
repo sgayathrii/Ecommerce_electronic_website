@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse,Http404
 import json
 import datetime
@@ -176,7 +176,7 @@ def searchResultView(request):
 		return render(request, 'store/Search_products.html', {})
 
 #View for category: Electro.html
-def categoryElectro(request):
+def categories(request):
 
 	categories = Category.objects.all()
 	subcategories = Subcategory.objects.all()
@@ -192,6 +192,32 @@ def categoryElectro(request):
 		'subcategories': subcategories,
 		'products': products,
 		'active_category': active_category,
+		
 	}
 
-	return render(request, 'store/Electro.html', context)
+	return render(request, 'store/Categories.html', context)
+
+def product_detail(request, slug):
+
+	product = get_object_or_404(ProductNew, slug=slug)
+
+	context = {
+		'product' : product
+	}
+
+	return render(request, 'store/Product_detail.html', context)
+
+def categoriesview(request, slug):
+
+	if(Category.objects.filter(slug=slug, status=0)):
+		products = ProductNew.objects.filter(category__slug=slug)
+		category_name = Category.objects.filter(slug=slug).first()
+		context = {'products' : products, 'category_name': category_name}
+		return render(request, "store/Products.html", context)
+	else:
+		messages.warning(request, "No such category found")
+		return redirect('store:categories')
+
+
+
+	

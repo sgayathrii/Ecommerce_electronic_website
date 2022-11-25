@@ -1,0 +1,33 @@
+{% extends 'store/main.html' %} 
+{% load static %}
+
+{% block title %}{{ category.title }} | {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{category_name.name}}</h1>
+            <hr>
+            <div class="row">
+                {%  for items in products %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <a href= "">
+                                <div class="card-body">
+                                    <div class="category-image">
+                                        <img src="{{items.product_image.url}}" alt="Product image" class="w-100"/>
+                                    </div>
+                                    <h4 class="text-center">{{items.category_title}}</h4>
+                                    <span>{{items.product_base_price}}</span>
+                                </div>
+                            </a>   
+                        </div> 
+                    </div>
+                {% endfor %}
+            </div>    
+        </div> 
+    </div>
+</div>
+{% endblock %}

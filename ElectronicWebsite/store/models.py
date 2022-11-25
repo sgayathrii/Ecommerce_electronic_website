@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 # Create your models here.
 
@@ -103,7 +104,12 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     def __str__(self):
-        return self.category_title 
+        return self.category_title
+    
+    def get_absolute_url(self):
+        return reverse('store:categories', kwargs={
+        'slug': self.category_slug 
+    })
 
     @property
     def imageURL(self):
@@ -114,12 +120,7 @@ class Category(models.Model):
         
         return url
 
-    @property    
-    def get_photo_url(self):
-        if self.category_image and hasattr(self.category_image, 'url'):
-            return self.category_image.url
-        else:
-            return "/static/images/category/TV.png"
+
 
 class Subcategory(models.Model):
     subcategory_title = models.CharField(max_length=200)
